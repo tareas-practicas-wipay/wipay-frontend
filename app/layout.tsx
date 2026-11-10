@@ -4,6 +4,7 @@ import { ConfigProvider } from "antd";
 import type { ThemeConfig } from "antd";
 import esES from "antd/locale/es_ES";
 import "./globals.css";
+import { SessionProvider } from "@/app/lib/session";
 
 export const metadata: Metadata = {
   title: "WiPay Admin",
@@ -27,9 +28,9 @@ export default function RootLayout({
       <html lang="es">
       <body>
       <AntdRegistry>
-        <ConfigProvider theme={theme} locale={esES}>
-          {children}
-        </ConfigProvider>
+          <ConfigProvider theme={theme} locale={esES}>
+              <SessionProvider>{children}</SessionProvider>
+          </ConfigProvider>
       </AntdRegistry>
       </body>
       </html>

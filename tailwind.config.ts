@@ -11,6 +11,10 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        wipay: {
+          navy: "#0c2846",
+          pink: "#db1b43",
+        },
       },
     },
   },

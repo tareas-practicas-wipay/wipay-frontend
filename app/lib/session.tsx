@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { SessionUser } from '@/app/lib/definitions';
 
 // Clave con la que guardamos el token en el localStorage del navegador
-const TOKEN_KEY = 'wipay-token';
+export const TOKEN_KEY = 'wipay-token';
 
 // Lo que cualquier componente puede leer o hacer con la sesión
 type Session = {

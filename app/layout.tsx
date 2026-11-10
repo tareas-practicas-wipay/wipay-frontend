@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ConfigProvider } from "antd";
+import { App, ConfigProvider } from "antd";
 import type { ThemeConfig } from "antd";
 import esES from "antd/locale/es_ES";
 import "./globals.css";
@@ -29,7 +29,9 @@ export default function RootLayout({
       <body>
       <AntdRegistry>
           <ConfigProvider theme={theme} locale={esES}>
-              <SessionProvider>{children}</SessionProvider>
+              <App>
+                  <SessionProvider>{children}</SessionProvider>
+              </App>
           </ConfigProvider>
       </AntdRegistry>
       </body>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider } from "antd";
+import type { ThemeConfig } from "antd";
 import esES from "antd/locale/es_ES";
 import "./globals.css";
 
@@ -10,10 +11,10 @@ export const metadata: Metadata = {
 };
 
 // Colores de WiPay aplicados a todos los componentes de Ant Design
-const theme = {
+const theme: ThemeConfig = {
   token: {
     colorPrimary: "#0c2846",  // azul marino: botones principales, enlaces, foco
-    colorSecundary: "#db1b43" // rosa oscuro : botones de borrar y mensajes de error
+    colorError: "#db1b43" // rosa oscuro : botones de borrar y mensajes de error
   },
 };
 

@@ -13,10 +13,23 @@ export const metadata: Metadata = {
 
 // Colores de WiPay aplicados a todos los componentes de Ant Design
 const theme: ThemeConfig = {
-  token: {
-    colorPrimary: "#0c2846",  // azul marino: botones principales, enlaces, foco
-    colorError: "#db1b43" // rosa oscuro : botones de borrar y mensajes de error
-  },
+    token: {
+        colorPrimary: "#0c2846",
+        colorError: "#db1b43",
+    },
+    // Colores de componentes concretos
+    components: {
+        Layout: {
+            siderBg: "#0c2846",     // fondo del menú lateral
+            triggerBg: "#081d33",   // barra inferior para plegarlo (un azul algo más oscuro)
+            headerBg: "#ffffff",    // cabecera blanca
+            headerPadding: "0 24px",
+        },
+        Menu: {
+            darkItemBg: "#0c2846",          // fondo de las opciones
+            darkItemSelectedBg: "#db1b43",  // opción seleccionada en rosa
+        },
+    },
 };
 
 export default function RootLayout({

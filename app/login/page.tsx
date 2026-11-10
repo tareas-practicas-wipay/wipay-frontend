@@ -36,7 +36,7 @@ export default function LoginPage() {
 
             login(token);
             message.success(`Hola, ${user.name}`);
-            router.replace('/');
+            router.replace('/clients');
         } catch (error) {
             message.error(error instanceof Error ? error.message : 'Error inesperado');
         } finally {

@@ -25,7 +25,7 @@ export default function SideNav() {
                 {collapsed ? (
                     <Image src="/wipay-isotipo-negativo.svg" alt="WiPay" width={32} height={32} />
                 ) : (
-                    <Image src="/wipay-logo-negativo.svg" alt="WiPay" width={144} height={36} priority />
+                    <Image src="/wipay-logo-negativo.svg" alt="WiPay" width={144} height={40} priority />
                 )}
             </Link>
             <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]} items={links} />

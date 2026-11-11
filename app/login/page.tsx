@@ -16,7 +16,7 @@ type LoginValues = {
 };
 
 export default function LoginPage() {
-    const router = useRouter();
+    const { replace } = useRouter();
     const {message} = App.useApp();   // avisos flotantes con el tema de WiPay
     const {login} = useSession();
     const [loading, setLoading] = useState(false); // para el "cargando" del botón
@@ -36,7 +36,7 @@ export default function LoginPage() {
 
             login(token);
             message.success(`Hola, ${user.name}`);
-            router.replace('/clients');
+            replace('/clients');
         } catch (error) {
             message.error(error instanceof Error ? error.message : 'Error inesperado');
         } finally {

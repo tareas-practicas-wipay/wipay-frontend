@@ -16,7 +16,7 @@ export default function SideNav() {
     const pathname = usePathname();
     const [collapsed, setCollapsed] = useState(false);
 
-    // Marcamos la opción cuya ruta es el principio de la actual (así /clients/123 marca "Clientes")
+    // Marcamos la opción cuya ruta es el principio de la actual (así /clients/123 también marca "Clientes")
     const selectedKey = links.find((link) => pathname.startsWith(link.key))?.key ?? '';
 
     return (

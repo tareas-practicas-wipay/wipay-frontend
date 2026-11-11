@@ -74,7 +74,7 @@ export default function ClientsPage() {
     // Columnas de la tabla
     const columns: TableProps<Client>['columns'] = [
         {
-            title: 'Nombre',
+            title: 'Nombre y Apellidos',
             key: 'name',
             render: (_, client) => (
                 <Link href={`/clients/${client.id}`}>
@@ -95,6 +95,7 @@ export default function ClientsPage() {
                     description="Dejará de aparecer en las búsquedas"
                     okText="Borrar"
                     okButtonProps={{ danger: true }}
+                    placement="topRight"
                     onConfirm={() => handleDelete(client)}
                 >
                     <Button danger icon={<DeleteOutlined />} />

@@ -22,7 +22,7 @@ export default function SearchBar({
     type: string;
     query: string;
 }) {
-    const router = useRouter();
+    const { replace } = useRouter();
     const pathname = usePathname();
 
     // Cambia la URL
@@ -34,7 +34,7 @@ export default function SearchBar({
         if (newQuery) {
             params.set('query', newQuery);
         }
-        router.replace(`${pathname}?${params.toString()}`);
+        replace(`${pathname}?${params.toString()}`);
     }
 
     // Debounce de 300 ms sin teclear antes de cambiar la URL
@@ -43,10 +43,10 @@ export default function SearchBar({
     }, WAIT_BETWEEN_CHANGES);
 
     // Texto de la opción elegida, para el placeholder ("Buscar por nombre")
-    const label = options.find((option) => option.value === type)?.label ?? '';
+    const label = options.find((option) => option.value == type)?.label ?? '';
 
     return (
-        <Space.Compact style={{ width: '100%', maxWidth: 576 }}>
+        <Space.Compact style={{ maxWidth: 576 }}>
             <Select
                 value={type}
                 options={options}

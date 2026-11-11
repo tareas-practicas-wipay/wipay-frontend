@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { App, Button, Popconfirm, Table } from 'antd';
+import {App, Button, Popconfirm, Space, Table} from 'antd';
 import type { TableProps } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import { Client, ClientSearchType } from '@/app/lib/definitions';
 import { deleteClient, searchClients } from '@/app/lib/data';
 import { formatDate } from '@/app/lib/utils';
 import SearchBar from '@/app/ui/search-bar';
+import ClientDrawer from "@/app/ui/clients/client-drawer";
 
 // Opciones del desplegable
 const searchOptions = [
@@ -28,6 +29,13 @@ export default function ClientsPage() {
     const { message } = App.useApp();
     const [clients, setClients] = useState<Client[]>([]);
     const [loading, setLoading] = useState(true);
+
+    // Después de crear/editar, el useEffect vuelve a pedir la lista
+    const [reloadKey, setReloadKey] = useState(0);
+
+    // Drawer: si está abierto y qué cliente se edita (null = crear uno nuevo)
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [editingClient, setEditingClient] = useState<Client | null>(null);
 
     // Cada vez que cambia la búsqueda (la URL), pedimos los clientes
     useEffect(() => {
@@ -56,7 +64,23 @@ export default function ClientsPage() {
         return () => {
             ignore = true;
         };
-    }, [type, query, message]);
+    }, [type, query, message, reloadKey]);
+
+    function openCreate() {
+        setEditingClient(null);
+        setDrawerOpen(true);
+    }
+
+    function openEdit(client: Client) {
+        setEditingClient(client);
+        setDrawerOpen(true);
+    }
+
+    // Tras guardar: cerramos el Drawer y volvemos a pedir la lista
+    function handleSaved() {
+        setDrawerOpen(false);
+        setReloadKey(reloadKey + 1);
+    }
 
     // Popconfirm espera a que termine esta función para cerrar su botón de "cargando"
     async function handleDelete(client: Client) {
@@ -90,24 +114,36 @@ export default function ClientsPage() {
             title: 'Acciones',
             key: 'actions',
             render: (_, client) => (
-                <Popconfirm
-                    title={`¿Borrar a ${client.name} ${client.surname}?`}
-                    description="Dejará de aparecer en las búsquedas"
-                    okText="Borrar"
-                    okButtonProps={{ danger: true }}
-                    placement="topRight"
-                    onConfirm={() => handleDelete(client)}
-                >
-                    <Button danger icon={<DeleteOutlined />} />
-                </Popconfirm>
+                <Space>
+                    <Button icon = { <EditOutlined /> } onClick={ () => openEdit(client)} />
+
+                    <Popconfirm
+                        title={`¿Borrar a ${client.name} ${client.surname}?`}
+                        description="Dejará de aparecer en las búsquedas"
+                        okText="Borrar"
+                        okButtonProps={{ danger: true }}
+                        placement="topRight"
+                        onConfirm={() => handleDelete(client)}
+                    >
+                        <Button danger icon={<DeleteOutlined />} />
+                    </Popconfirm>
+
+                </Space>
             ),
         },
     ];
 
     return (
         <div className="flex flex-col gap-4">
-            <h1 className="text-2xl font-semibold">Clientes</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-semibold">Clientes</h1>
+                <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>
+                    Nuevo cliente
+                </Button>
+            </div>
+
             <SearchBar options={searchOptions} type={type} query={query} />
+
             <Table
                 rowKey="id"
                 columns={columns}
@@ -115,6 +151,13 @@ export default function ClientsPage() {
                 loading={loading}
                 pagination={{ pageSize: 10 }}
                 scroll={{ x: true }}
+            />
+
+            <ClientDrawer
+                open={drawerOpen}
+                client={editingClient}
+                onClose={() => setDrawerOpen(false)}
+                onSaved={handleSaved}
             />
         </div>
     );

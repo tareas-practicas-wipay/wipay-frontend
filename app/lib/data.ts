@@ -1,4 +1,4 @@
-import { Client, ClientSearchType, ProblemDetail } from '@/app/lib/definitions';
+import {Client, ClientForm, ClientSearchType, ProblemDetail} from '@/app/lib/definitions';
 import { EMAIL_REGEX } from '@/app/lib/validation';
 import { TOKEN_KEY } from '@/app/lib/session';
 
@@ -108,4 +108,18 @@ export function searchClients(type: ClientSearchType, query: string): Promise<Cl
         return Promise.resolve([]);
     }
     return oneOrNone(fetchClientByEmail(text));
+}
+
+export function createClient(client: ClientForm) {
+    return request<Client>('/clients', {
+        method: 'POST',
+        body: JSON.stringify(client),
+    });
+}
+
+export function updateClient(id: string, client:ClientForm) {
+    return request<Client>(`/clients/${id}`, {
+       method: 'PUT',
+       body: JSON.stringify(client),
+    });
 }

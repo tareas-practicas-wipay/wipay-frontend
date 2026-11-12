@@ -136,12 +136,19 @@ export default function ClientsPage() {
         <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-semibold">Clientes</h1>
-                <Button type="primary" icon={<PlusOutlined />} onClick={openCreate}>
-                    Nuevo cliente
-                </Button>
             </div>
 
-            <SearchBar options={searchOptions} type={type} query={query} />
+            <div className="flex items-center justify-between gap-2">
+                <SearchBar options={searchOptions} type={type} query={query} />
+                <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={openCreate}
+                    title="Nuevo cliente"
+                >
+                    <span className="hidden sm:inline">Nuevo cliente</span>
+                </Button>
+            </div>
 
             <Table
                 rowKey="id"

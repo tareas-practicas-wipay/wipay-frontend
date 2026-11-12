@@ -48,7 +48,7 @@ export default function SearchBar({
     const isLive = selected?.live ?? false;
 
     return (
-        <Space.Compact style={{ maxWidth: 576 }}>
+        <Space.Compact style={{ width: '100%', maxWidth: 500 }}>
             <Select
                 value={type}
                 options={options}

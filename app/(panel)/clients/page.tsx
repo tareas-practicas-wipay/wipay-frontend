@@ -16,7 +16,7 @@ import ClientDrawer from "@/app/ui/clients/client-drawer";
 const searchOptions = [
     { value: 'all', label: 'Todos' },
     { value: 'id', label: 'ID' },
-    { value: 'name', label: 'Nombre' },
+    { value: 'name', label: 'Nombre', live: true },
     { value: 'email', label: 'Email' },
 ];
 

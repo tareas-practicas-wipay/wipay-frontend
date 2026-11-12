@@ -16,7 +16,7 @@ import MerchantDrawer from '@/app/ui/merchants/merchant-drawer';
 const searchOptions = [
     { value: 'all', label: 'Todos' },
     { value: 'id', label: 'ID' },
-    { value: 'name', label: 'Nombre' },
+    { value: 'name', label: 'Nombre', live: true },
     { value: 'clientId', label: 'ID de cliente' },
 ];
 

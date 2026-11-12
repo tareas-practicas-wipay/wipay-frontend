@@ -1,4 +1,12 @@
-import {Client, ClientForm, ClientSearchType, Merchant, MerchantForm, ProblemDetail} from '@/app/lib/definitions';
+import {
+    Client,
+    ClientForm,
+    ClientSearchType,
+    Merchant,
+    MerchantForm,
+    MerchantSearchType,
+    ProblemDetail
+} from '@/app/lib/definitions';
 import { EMAIL_REGEX } from '@/app/lib/validation';
 import { TOKEN_KEY } from '@/app/lib/session';
 
@@ -75,10 +83,6 @@ export function fetchClientByEmail(email: string) {
     return request<Client> (`/clients/search/by-email?email=${encodeURIComponent(email)}`);
 }
 
-export function deleteClient(id: string) {
-    return request<void>(`/clients/${id}`, { method: 'DELETE' });
-}
-
 /**
  * Si el backend responde 404 (no existe), devolvemos una lista vacía en lugar de un error.
  * Sirve para CLIENT y MERCHANT --> (<T> = el tipo de los elementos)
@@ -127,10 +131,42 @@ export function updateClient(id: string, client: ClientForm) {
     });
 }
 
+export function deleteClient(id: string) {
+    return request<void>(`/clients/${id}`, { method: 'DELETE' });
+}
+
 // ---------- Merchants ----------
+
+export function fetchMerchants() {
+    return request<Merchant[]>('/merchants');
+}
+
+export function fetchMerchantById(id: string) {
+    return request<Merchant>(`/merchants/${encodeURIComponent(id)}`);
+}
+
+export function fetchMerchantsByName(name: string) {
+    return request<Merchant[]>(`/merchants/search/by-name?name=${encodeURIComponent(name)}`);
+}
 
 export function fetchMerchantsByClient(clientId: string) {
     return request<Merchant[]>(`/merchants/search/by-client?clientId=${encodeURIComponent(clientId)}`);
+}
+
+// Decide a qué endpoint llamar según el tipo de búsqueda. Siempre devuelve una lista para la tabla
+export function searchMerchants(type: MerchantSearchType, query: string): Promise<Merchant[]> {
+    const text = query.trim();
+    if (type === 'all' || text === '') {
+        return fetchMerchants();
+    }
+    if (type === 'name') {
+        return fetchMerchantsByName(text);
+    }
+    if (type === 'id') {
+        return emptyIfNotFound(fetchMerchantById(text).then((merchant) => [merchant]));
+    }
+    // clientId: mientras el id no esté completo, el backend responde 404 -> lista vacía
+    return emptyIfNotFound(fetchMerchantsByClient(text));
 }
 
 export function createMerchant(merchant: MerchantForm) {
@@ -148,3 +184,8 @@ export function updateMerchant(id: string, merchant: MerchantForm) {
         body: JSON.stringify({name, address, merchantType}),
     });
 }
+
+export function deleteMerchant(id: string) {
+    return request<void>(`/merchants/${id}`, { method: 'DELETE' });
+}
+

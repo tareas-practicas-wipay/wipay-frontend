@@ -52,5 +52,8 @@ export type ProblemDetail = {
     errors?: Record<string, string>; // solo en los 400: nombre del campo -> mensaje
 };
 
-// Tipos de búsqueda de la pantalla de clientes (se guardan en la URL: ?type=name)
+// Tipos de búsqueda de la vista de clientes (se guardan en la URL: ?type=name)
 export type ClientSearchType = 'all' | 'id' | 'name' | 'email';
+
+// Tipos de búsqueda de la vista de merchants (se guardan en la URL: ?type=clientId)
+export type MerchantSearchType = 'all' | 'id' | 'name' | 'clientId';

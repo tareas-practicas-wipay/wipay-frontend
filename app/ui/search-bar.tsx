@@ -51,7 +51,7 @@ export default function SearchBar({
                 value={type}
                 options={options}
                 onChange={(newType) => updateUrl(newType, '')}
-                style={{ width: 120 }}
+                style={{ width: 140 }}
             />
             <Input
                 key={type}

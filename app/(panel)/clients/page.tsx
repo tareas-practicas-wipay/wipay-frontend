@@ -127,7 +127,6 @@ export default function ClientsPage() {
                     >
                         <Button danger icon={<DeleteOutlined />} />
                     </Popconfirm>
-
                 </Space>
             ),
         },

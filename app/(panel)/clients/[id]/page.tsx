@@ -138,17 +138,17 @@ export default function ClientDetailPage() {
                     <Tooltip title={hasMerchants ? `Borra antes sus ${merchants.length} merchants` : ''}>
                         <span>
                             <Popconfirm
-                            title={`¿Borrar a ${client.name} ${client.surname}?`}
-                            description="Dejará de aparecer en las búsquedas"
-                            okText="Borrar"
-                            okButtonProps={{ danger: true }}
-                            placement="bottomRight"
-                            onConfirm={handleDelete}
-                            disabled={hasMerchants}
+                                title={`¿Borrar a ${client.name} ${client.surname}?`}
+                                description="Dejará de aparecer en las búsquedas"
+                                okText="Borrar"
+                                okButtonProps={{ danger: true }}
+                                placement="bottomRight"
+                                onConfirm={handleDelete}
+                                disabled={hasMerchants}
                             >
-                            <Button danger icon={<DeleteOutlined />} disabled={hasMerchants}>
-                            Borrar
-                            </Button>
+                                <Button danger icon={<DeleteOutlined />} disabled={hasMerchants}>
+                                    Borrar
+                                </Button>
                             </Popconfirm>
                         </span>
                     </Tooltip>

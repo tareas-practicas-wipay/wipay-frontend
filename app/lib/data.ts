@@ -79,15 +79,18 @@ export function deleteClient(id: string) {
     return request<void>(`/clients/${id}`, { method: 'DELETE' });
 }
 
-// ID y email devuelven UN cliente o un 404. Lo convertimos en lista: [cliente] o [] si no existe
-async function oneOrNone(promise: Promise<Client>): Promise<Client[]> {
+/**
+ * Si el backend responde 404 (no existe), devolvemos una lista vacía en lugar de un error.
+ * Sirve para CLIENT y MERCHANT --> (<T> = el tipo de los elementos)
+ */
+async function emptyIfNotFound<T>(promise: Promise<T[]>): Promise<T[]> {
     try {
-        return [await promise];
+        return await promise;
     } catch (error) {
         if (error instanceof ApiError && error.status === 404) {
             return [];
         }
-        throw error; // cualquier otro error sí se muestra
+        throw error;
     }
 }
 
@@ -101,13 +104,13 @@ export function searchClients(type: ClientSearchType, query: string): Promise<Cl
         return fetchClientsByName(text);
     }
     if (type === 'id') {
-        return oneOrNone(fetchClientById(text));
+        return emptyIfNotFound(fetchClientById(text).then((client) => [client]));
     }
     // Email: mientras no sea un email completo no llamamos (el backend respondería 400)
     if (!EMAIL_REGEX.test(text)) {
         return Promise.resolve([]);
     }
-    return oneOrNone(fetchClientByEmail(text));
+    return emptyIfNotFound(fetchClientByEmail(text).then((client) => [client]));
 }
 
 export function createClient(client: ClientForm) {

@@ -1,4 +1,4 @@
-import {Client, ClientForm, ClientSearchType, ProblemDetail} from '@/app/lib/definitions';
+import {Client, ClientForm, ClientSearchType, Merchant, MerchantForm, ProblemDetail} from '@/app/lib/definitions';
 import { EMAIL_REGEX } from '@/app/lib/validation';
 import { TOKEN_KEY } from '@/app/lib/session';
 
@@ -117,9 +117,31 @@ export function createClient(client: ClientForm) {
     });
 }
 
-export function updateClient(id: string, client:ClientForm) {
+export function updateClient(id: string, client: ClientForm) {
     return request<Client>(`/clients/${id}`, {
        method: 'PUT',
        body: JSON.stringify(client),
+    });
+}
+
+// ---------- Merchants ----------
+
+export function fetchMerchantsByClient(clientId: string) {
+    return request<Merchant[]>(`/merchants/search/by-client?clientId=${encodeURIComponent(clientId)}`);
+}
+
+export function createMerchant(merchant: MerchantForm) {
+    return request<Merchant>('/merchants', {
+        method: 'POST',
+        body: JSON.stringify(merchant),
+    });
+}
+
+// El propietario no se puede cambiar: MerchantUpdateRequest solo admite estos 3 campos
+export function updateMerchant(id: string, merchant: MerchantForm) {
+    const { name, address, merchantType } = merchant;
+    return request<Merchant>(`/merchants/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({name, address, merchantType}),
     });
 }

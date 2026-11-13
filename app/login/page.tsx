@@ -17,8 +17,8 @@ type LoginValues = {
 
 export default function LoginPage() {
     const { replace } = useRouter();
-    const {message} = App.useApp();   // avisos flotantes con el tema de WiPay
-    const {login} = useSession();
+    const { message } = App.useApp();   // avisos flotantes con el tema de WiPay
+    const { login } = useSession();
     const [loading, setLoading] = useState(false); // para el "cargando" del botón
 
     // Se ejecuta solo si el formulario pasa sus validaciones

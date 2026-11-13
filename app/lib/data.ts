@@ -60,7 +60,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     return response.json();
 }
 
-// Genera un JWT de prueba (POST /tokens de client-microservice)
+// Genera un JWT (POST /tokens de client-microservice)
 export function createToken(name: string, age: number): Promise<{token:string}> {
     return request<{token: string}>('/tokens', { method: 'POST', body:JSON.stringify({name, age}) });
 }
